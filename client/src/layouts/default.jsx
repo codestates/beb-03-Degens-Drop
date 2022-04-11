@@ -9,9 +9,9 @@ import Sidebar from "components/Sidebar/Sidebar.js";
 import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
 
 import routes from "routes.js";
+
 import logo from "assets/img/degen.png";
 import { BackgroundColorContext } from "contexts/BackgroundColorContext";
-//const routes = leftRoutes.slice(0, leftRoutes.length - 1);
 
 var ps;
 
@@ -65,7 +65,7 @@ function Admin(props) {
       if (prop.layout === "/") {
         return (
           <Route
-            path={prop.path}
+            path={prop.layout + prop.path}
             component={prop.component}
             key={key}
           />
