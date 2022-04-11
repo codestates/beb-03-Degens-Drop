@@ -14,7 +14,7 @@ import { BackgroundColorContext } from "contexts/BackgroundColorContext";
 //const routes = leftRoutes.slice(0, leftRoutes.length - 1);
 
 import Web3 from "web3";
-import { useStores } from "states/Context";
+import useStores from "hooks/useStore";
 import { observer } from "mobx-react";
 var ps;
 

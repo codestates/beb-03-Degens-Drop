@@ -39,7 +39,7 @@ import {
   ModalHeader,
 } from "reactstrap";
 
-import { useStores } from "states/Context";
+import useStores from "hooks/useStore";
 import { observer } from "mobx-react";
 
 export default observer((props) => {
