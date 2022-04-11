@@ -6,12 +6,14 @@ import { create as ipfsHttpClient } from "ipfs-http-client";
 
 import { FormGroup, Label, Input, Card, CardBody, Button } from "reactstrap";
 import Notify from "react-notification-alert";
+import Loading from "components/Loading";
 
 const client = ipfsHttpClient("https://ipfs.infura.io:5001/api/v0");
 
 const MintPage = observer(() => {
   const [image, setImage] = useState(undefined);
   const [nftContract, setNftContract] = useState(undefined);
+  const [isLoading, setIsLoading] = useState(false);
   const nameEl = useRef(null);
   const descEl = useRef(null);
   const notiRef = useRef(null);
@@ -25,6 +27,7 @@ const MintPage = observer(() => {
 
   const mintNFT = async (e) => {
     e.preventDefault();
+    if (isLoading) return;
 
     const options = {
       place: "br",
@@ -88,11 +91,22 @@ const MintPage = observer(() => {
 
       try {
         const uri = `https://ipfs.infura.io/ipfs/${resultMetadata.path}`;
-
+        setIsLoading(true);
         const tokenId = await nftContract.methods
           .mintNFT(blockchainStore.blockchain.account, uri)
           .send({ from: blockchainStore.blockchain.account });
-
+        notiRef.current.notificationAlert({
+          ...options,
+          type: "success",
+          message: (
+            <div>
+              <div>NFT 민팅에 성공했습니다!.</div>
+            </div>
+          ),
+        });
+        console.log(tokenId);
+        setIsLoading(false);
+      } catch (err) {
         notiRef.current.notificationAlert({
           ...options,
           message: (
@@ -104,17 +118,7 @@ const MintPage = observer(() => {
             </div>
           ),
         });
-        console.log(tokenId);
-      } catch (er) {
-        notiRef.current.notificationAlert({
-          ...options,
-          type: "success",
-          message: (
-            <div>
-              <div>NFT 민팅에 성공했습니다!.</div>
-            </div>
-          ),
-        });
+        setIsLoading(false);
         return;
       }
     }
@@ -178,8 +182,13 @@ const MintPage = observer(() => {
               onChange={getImage}
             />
           </div>
-          <Button type='button' color='primary' onClick={mintNFT}>
-            민팅
+          <Button
+            className='btnMinting'
+            type='button'
+            color='primary'
+            onClick={mintNFT}
+          >
+            {isLoading ? <Loading width='1rem' height='1rem' /> : "민팅"}
           </Button>
         </form>
       </CardBody>
