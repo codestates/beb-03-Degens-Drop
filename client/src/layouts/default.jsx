@@ -13,14 +13,20 @@ import logo from "assets/img/degen.png";
 import { BackgroundColorContext } from "contexts/BackgroundColorContext";
 //const routes = leftRoutes.slice(0, leftRoutes.length - 1);
 
+import Web3 from "web3";
+import { useStores } from "states/Context";
+import { observer } from "mobx-react";
 var ps;
 
-function Admin(props) {
+export default observer((props) => {
   const location = useLocation();
   const mainPanelRef = React.useRef(null);
   const [sidebarOpened, setsidebarOpened] = React.useState(
     document.documentElement.className.indexOf("nav-open") !== -1
   );
+
+  const { blockchainStore } = useStores();
+
   React.useEffect(() => {
     if (navigator.platform.indexOf("Win") > -1) {
       document.documentElement.className += " perfect-scrollbar-on";
@@ -55,21 +61,29 @@ function Admin(props) {
       mainPanelRef.current.scrollTop = 0;
     }
   }, [location]);
+
+  React.useEffect(() => {
+    if (typeof window.ethereum !== "undefined") {
+      // window.ethereum이 있다면
+      try {
+        const web = new Web3(window.ethereum); // 새로운 web3 객체를 만든다
+        blockchainStore.setWeb3(web);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }, []);
+
   // this function opens and closes the sidebar on small devices
   const toggleSidebar = () => {
     document.documentElement.classList.toggle("nav-open");
     setsidebarOpened(!sidebarOpened);
   };
+
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
       if (prop.layout === "/") {
-        return (
-          <Route
-            path={prop.path}
-            component={prop.component}
-            key={key}
-          />
-        );
+        return <Route path={prop.path} component={prop.component} key={key} />;
       } else {
         return null;
       }
@@ -87,7 +101,7 @@ function Admin(props) {
     <BackgroundColorContext.Consumer>
       {({ color, changeColor }) => (
         <React.Fragment>
-          <div className="wrapper">
+          <div className='wrapper'>
             <Sidebar
               routes={routes}
               logo={{
@@ -97,7 +111,7 @@ function Admin(props) {
               }}
               toggleSidebar={toggleSidebar}
             />
-            <div className="main-panel" ref={mainPanelRef} data={color}>
+            <div className='main-panel' ref={mainPanelRef} data={color}>
               <AdminNavbar
                 brandText={getBrandText(location.pathname)}
                 toggleSidebar={toggleSidebar}
@@ -105,7 +119,7 @@ function Admin(props) {
               />
               <Switch>
                 {getRoutes(routes)}
-                <Redirect from="*" to="/main" />
+                <Redirect from='*' to='/main' />
               </Switch>
               {
                 // we don't want the Footer to be rendered on map page
@@ -118,6 +132,6 @@ function Admin(props) {
       )}
     </BackgroundColorContext.Consumer>
   );
-}
+});
 
-export default Admin;
+//export default Admin;
