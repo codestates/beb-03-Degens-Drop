@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, { useRef } from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
 
@@ -38,6 +38,7 @@ import {
   NavbarToggler,
   ModalHeader,
 } from "reactstrap";
+import Notify from "react-notification-alert";
 
 import { useStores } from "states/Context";
 import { observer } from "mobx-react";
@@ -46,7 +47,7 @@ export default observer((props) => {
   const [collapseOpen, setcollapseOpen] = React.useState(false);
   const [modalSearch, setmodalSearch] = React.useState(false);
   const [color, setcolor] = React.useState("navbar-transparent");
-
+  const notiRef = useRef(null);
   const { blockchainStore } = useStores();
   console.log("blockchainStore: ", blockchainStore);
 
@@ -89,6 +90,19 @@ export default observer((props) => {
     window.ethereum.on("accountsChanged", (accounts) => {
       blockchainStore.setAccount(accounts[0]);
     });
+
+    const options = {
+      place: "br",
+      message: (
+        <div>
+          <div>지갑 연결 성공</div>
+        </div>
+      ),
+      type: "success",
+      icon: "",
+      autoDismiss: 5,
+    };
+    notiRef.current.notificationAlert(options);
   };
   return (
     <>
@@ -215,6 +229,7 @@ export default observer((props) => {
           </button>
         </ModalHeader>
       </Modal>
+      <Notify ref={notiRef} />
     </>
   );
 });
