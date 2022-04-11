@@ -108,38 +108,35 @@ function AdminNavbar(props) {
                 <DropdownToggle
                   caret
                   color="default"
-                  data-toggle="dropdown"
                   nav
+                  onClick={(e) => e.preventDefault()}
                 >
-                  <div className="notification d-none d-lg-block d-xl-block" />
-                  <i className="tim-icons icon-sound-wave" />
-                  <p className="d-lg-none">Notifications</p>
+                  {/* <div className="photo">
+                    <img
+                      alt="..."
+                      src={require("assets/img/anime3.png").default}
+                    />
+                  </div> */}
+                  <i className="tim-icons icon-single-02" />
+                  <b className="caret d-none d-lg-block d-xl-block" />
+                  <p className="d-lg-none">Log out</p>
                 </DropdownToggle>
                 <DropdownMenu className="dropdown-navbar" right tag="ul">
                   <NavLink tag="li">
-                    <DropdownItem className="nav-item">
-                      Mike John responded to your email
-                    </DropdownItem>
+                    <DropdownItem className="nav-item">profile</DropdownItem>
                   </NavLink>
                   <NavLink tag="li">
-                    <DropdownItem className="nav-item">
-                      You have 5 more tasks
-                    </DropdownItem>
+                    <DropdownItem className="nav-item">favorites</DropdownItem>
                   </NavLink>
                   <NavLink tag="li">
-                    <DropdownItem className="nav-item">
-                      Your friend Michael is in town
-                    </DropdownItem>
+                    <DropdownItem className="nav-item">myCollections</DropdownItem>
                   </NavLink>
                   <NavLink tag="li">
-                    <DropdownItem className="nav-item">
-                      Another notification
-                    </DropdownItem>
+                    <DropdownItem className="nav-item">Settings</DropdownItem>
                   </NavLink>
+                  <DropdownItem divider tag="li" />
                   <NavLink tag="li">
-                    <DropdownItem className="nav-item">
-                      Another one
-                    </DropdownItem>
+                    <DropdownItem className="nav-item">Log out</DropdownItem>
                   </NavLink>
                 </DropdownMenu>
               </UncontrolledDropdown>
@@ -150,25 +147,12 @@ function AdminNavbar(props) {
                   nav
                   onClick={(e) => e.preventDefault()}
                 >
-                  <div className="photo">
-                    <img
-                      alt="..."
-                      src={require("assets/img/anime3.png").default}
-                    />
-                  </div>
+                  <i className="tim-icons icon-wallet-43" />
                   <b className="caret d-none d-lg-block d-xl-block" />
-                  <p className="d-lg-none">Log out</p>
                 </DropdownToggle>
                 <DropdownMenu className="dropdown-navbar" right tag="ul">
                   <NavLink tag="li">
-                    <DropdownItem className="nav-item">Profile</DropdownItem>
-                  </NavLink>
-                  <NavLink tag="li">
-                    <DropdownItem className="nav-item">Settings</DropdownItem>
-                  </NavLink>
-                  <DropdownItem divider tag="li" />
-                  <NavLink tag="li">
-                    <DropdownItem className="nav-item">Log out</DropdownItem>
+                    <DropdownItem className="nav-item">MetaMask</DropdownItem>
                   </NavLink>
                 </DropdownMenu>
               </UncontrolledDropdown>
