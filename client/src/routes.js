@@ -12,7 +12,7 @@ import Collected from "views/Collected";
 
 var routes = [
   {
-    path: "/",
+    path: "/main",
     name: "Degens-Drop",
     icon: "tim-icons icon-chart-pie-36",
     component: Main,

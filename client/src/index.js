@@ -17,9 +17,9 @@
 */
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-import AdminLayout from "layouts/Admin/Admin.js";
+import DefaultLayout from "layouts/default";
 
 import "assets/scss/black-dashboard-react.scss";
 import "assets/demo/demo.css";
@@ -34,8 +34,7 @@ ReactDOM.render(
     <BackgroundColorWrapper>
       <BrowserRouter>
         <Switch>
-          <Route path="/" render={(props) => <AdminLayout {...props} />} />
-          {/* <Redirect from="/" to="/admin/dashboard" /> */}
+          <Route path="/" render={(props) => <DefaultLayout {...props} />} />
         </Switch>
       </BrowserRouter>
     </BackgroundColorWrapper>
