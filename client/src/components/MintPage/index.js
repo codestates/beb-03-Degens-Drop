@@ -92,7 +92,17 @@ const MintPage = observer(() => {
         const tokenId = await nftContract.methods
           .mintNFT(blockchainStore.blockchain.account, uri)
           .send({ from: blockchainStore.blockchain.account });
-
+        notiRef.current.notificationAlert({
+          ...options,
+          type: "success",
+          message: (
+            <div>
+              <div>NFT 민팅에 성공했습니다!.</div>
+            </div>
+          ),
+        });
+        console.log(tokenId);
+      } catch (err) {
         notiRef.current.notificationAlert({
           ...options,
           message: (
@@ -101,17 +111,6 @@ const MintPage = observer(() => {
                 NFT를 민팅하는 중에 에러가 발생했습니다. 다시
                 시도해주시기바랍니다.
               </div>
-            </div>
-          ),
-        });
-        console.log(tokenId);
-      } catch (er) {
-        notiRef.current.notificationAlert({
-          ...options,
-          type: "success",
-          message: (
-            <div>
-              <div>NFT 민팅에 성공했습니다!.</div>
             </div>
           ),
         });
