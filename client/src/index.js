@@ -29,14 +29,21 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import ThemeContextWrapper from "./components/ThemeWrapper/ThemeWrapper";
 import BackgroundColorWrapper from "./components/BackgroundColorWrapper/BackgroundColorWrapper";
 
+import { StoreProvider } from "./states/Context";
+import { RootStore } from "./states/RootStore";
+
+const rootStore = new RootStore();
+
 ReactDOM.render(
   <ThemeContextWrapper>
     <BackgroundColorWrapper>
-      <BrowserRouter>
-        <Switch>
-          <Route path="/" render={(props) => <DefaultLayout {...props} />} />
-        </Switch>
-      </BrowserRouter>
+      <StoreProvider value={rootStore}>
+        <BrowserRouter>
+          <Switch>
+            <Route path='/' render={(props) => <DefaultLayout {...props} />} />
+          </Switch>
+        </BrowserRouter>
+      </StoreProvider>
     </BackgroundColorWrapper>
   </ThemeContextWrapper>,
   document.getElementById("root")

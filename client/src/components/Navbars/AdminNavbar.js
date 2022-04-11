@@ -39,10 +39,17 @@ import {
   ModalHeader,
 } from "reactstrap";
 
-function AdminNavbar(props) {
+import { useStores } from "states/Context";
+import { observer } from "mobx-react";
+
+export default observer((props) => {
   const [collapseOpen, setcollapseOpen] = React.useState(false);
   const [modalSearch, setmodalSearch] = React.useState(false);
   const [color, setcolor] = React.useState("navbar-transparent");
+
+  const { blockchainStore } = useStores();
+  console.log("blockchainStore: ", blockchainStore);
+
   React.useEffect(() => {
     window.addEventListener("resize", updateColor);
     // Specify how to clean up after this effect:
@@ -71,43 +78,55 @@ function AdminNavbar(props) {
   const toggleModalSearch = () => {
     setmodalSearch(!modalSearch);
   };
+
+  const connectToWallet = async () => {
+    await window.ethereum.request({
+      method: "eth_requestAccounts",
+    });
+    console.log(blockchainStore.blockchain);
+    const accounts = await blockchainStore.blockchain.web3.eth.getAccounts();
+    blockchainStore.setAccount(accounts[0]);
+    window.ethereum.on("accountsChanged", (accounts) => {
+      blockchainStore.setAccount(accounts[0]);
+    });
+  };
   return (
     <>
-      <Navbar className={classNames("navbar-absolute", color)} expand="lg">
+      <Navbar className={classNames("navbar-absolute", color)} expand='lg'>
         <Container fluid>
-          <div className="navbar-wrapper">
+          <div className='navbar-wrapper'>
             <div
               className={classNames("navbar-toggle d-inline", {
                 toggled: props.sidebarOpened,
               })}
             >
               <NavbarToggler onClick={props.toggleSidebar}>
-                <span className="navbar-toggler-bar bar1" />
-                <span className="navbar-toggler-bar bar2" />
-                <span className="navbar-toggler-bar bar3" />
+                <span className='navbar-toggler-bar bar1' />
+                <span className='navbar-toggler-bar bar2' />
+                <span className='navbar-toggler-bar bar3' />
               </NavbarToggler>
             </div>
-            <NavbarBrand href="#pablo" onClick={(e) => e.preventDefault()}>
+            <NavbarBrand href='#pablo' onClick={(e) => e.preventDefault()}>
               {props.brandText}
             </NavbarBrand>
           </div>
           <NavbarToggler onClick={toggleCollapse}>
-            <span className="navbar-toggler-bar navbar-kebab" />
-            <span className="navbar-toggler-bar navbar-kebab" />
-            <span className="navbar-toggler-bar navbar-kebab" />
+            <span className='navbar-toggler-bar navbar-kebab' />
+            <span className='navbar-toggler-bar navbar-kebab' />
+            <span className='navbar-toggler-bar navbar-kebab' />
           </NavbarToggler>
           <Collapse navbar isOpen={collapseOpen}>
-            <Nav className="ml-auto" navbar>
-              <InputGroup className="search-bar">
-                <Button color="link" onClick={toggleModalSearch}>
-                  <i className="tim-icons icon-zoom-split" />
-                  <span className="d-lg-none d-md-block">Search</span>
+            <Nav className='ml-auto' navbar>
+              <InputGroup className='search-bar'>
+                <Button color='link' onClick={toggleModalSearch}>
+                  <i className='tim-icons icon-zoom-split' />
+                  <span className='d-lg-none d-md-block'>Search</span>
                 </Button>
               </InputGroup>
               <UncontrolledDropdown nav>
                 <DropdownToggle
                   caret
-                  color="default"
+                  color='default'
                   nav
                   onClick={(e) => e.preventDefault()}
                 >
@@ -117,68 +136,87 @@ function AdminNavbar(props) {
                       src={require("assets/img/anime3.png").default}
                     />
                   </div> */}
-                  <i className="tim-icons icon-single-02" />
-                  <b className="caret d-none d-lg-block d-xl-block" />
-                  <p className="d-lg-none">Log out</p>
+                  <i className='tim-icons icon-single-02' />
+                  <b className='caret d-none d-lg-block d-xl-block' />
+                  <p className='d-lg-none'>Log out</p>
                 </DropdownToggle>
-                <DropdownMenu className="dropdown-navbar" right tag="ul">
-                  <NavLink tag="li">
-                    <DropdownItem className="nav-item">profile</DropdownItem>
+                <DropdownMenu className='dropdown-navbar' right tag='ul'>
+                  <NavLink tag='li'>
+                    <DropdownItem className='nav-item'>profile</DropdownItem>
                   </NavLink>
-                  <NavLink tag="li">
-                    <DropdownItem className="nav-item">favorites</DropdownItem>
+                  <NavLink tag='li'>
+                    <DropdownItem className='nav-item'>favorites</DropdownItem>
                   </NavLink>
-                  <NavLink tag="li">
-                    <DropdownItem className="nav-item">myCollections</DropdownItem>
+                  <NavLink tag='li'>
+                    <DropdownItem className='nav-item'>
+                      myCollections
+                    </DropdownItem>
                   </NavLink>
-                  <NavLink tag="li">
-                    <DropdownItem className="nav-item">Settings</DropdownItem>
+                  <NavLink tag='li'>
+                    <DropdownItem className='nav-item'>Settings</DropdownItem>
                   </NavLink>
-                  <DropdownItem divider tag="li" />
-                  <NavLink tag="li">
-                    <DropdownItem className="nav-item">Log out</DropdownItem>
+                  <DropdownItem divider tag='li' />
+                  <NavLink tag='li'>
+                    <DropdownItem className='nav-item'>Log out</DropdownItem>
                   </NavLink>
                 </DropdownMenu>
               </UncontrolledDropdown>
               <UncontrolledDropdown nav>
                 <DropdownToggle
                   caret
-                  color="default"
+                  color='default'
                   nav
                   onClick={(e) => e.preventDefault()}
                 >
-                  <i className="tim-icons icon-wallet-43" />
-                  <b className="caret d-none d-lg-block d-xl-block" />
+                  <i className='tim-icons icon-wallet-43' />
+                  <b className='caret d-none d-lg-block d-xl-block' />
                 </DropdownToggle>
-                <DropdownMenu className="dropdown-navbar" right tag="ul">
-                  <NavLink tag="li">
-                    <DropdownItem className="nav-item">MetaMask</DropdownItem>
+                <DropdownMenu className='dropdown-navbar' right tag='ul'>
+                  <NavLink tag='li'>
+                    {blockchainStore.blockchain.account === "" ? (
+                      <DropdownItem
+                        className='nav-item'
+                        onClick={connectToWallet}
+                      >
+                        MetaMask에 연결
+                      </DropdownItem>
+                    ) : (
+                      <DropdownItem className='nav-item'>
+                        {`${blockchainStore.blockchain.account.substr(
+                          0,
+                          6
+                        )}...${blockchainStore.blockchain.account.substr(
+                          -4,
+                          4
+                        )}`}
+                      </DropdownItem>
+                    )}
                   </NavLink>
                 </DropdownMenu>
               </UncontrolledDropdown>
-              <li className="separator d-lg-none" />
+              <li className='separator d-lg-none' />
             </Nav>
           </Collapse>
         </Container>
       </Navbar>
       <Modal
-        modalClassName="modal-search"
+        modalClassName='modal-search'
         isOpen={modalSearch}
         toggle={toggleModalSearch}
       >
         <ModalHeader>
-          <Input placeholder="SEARCH" type="text" />
+          <Input placeholder='SEARCH' type='text' />
           <button
-            aria-label="Close"
-            className="close"
+            aria-label='Close'
+            className='close'
             onClick={toggleModalSearch}
           >
-            <i className="tim-icons icon-simple-remove" />
+            <i className='tim-icons icon-simple-remove' />
           </button>
         </ModalHeader>
       </Modal>
     </>
   );
-}
+});
 
-export default AdminNavbar;
+//export default AdminNavbar;
