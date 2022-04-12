@@ -29,6 +29,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 
 import ThemeContextWrapper from "./components/ThemeWrapper/ThemeWrapper";
 import BackgroundColorWrapper from "./components/BackgroundColorWrapper/BackgroundColorWrapper";
+import { ReactQueryDevtools } from 'react-query/devtools'
 
 import Store from "./store";
 
@@ -48,6 +49,7 @@ ReactDOM.render(
             <Switch>
               <Route path='/' render={(props) => <DefaultLayout {...props} />} />
             </Switch>
+            <ReactQueryDevtools initialIsOpen={false} />
           </BrowserRouter>
         </QueryClientProvider>
       </Store>
