@@ -1,9 +1,11 @@
-import React from 'react';
+import React from "react";
+import MintPage from "components/MintPage";
 
 function Minting() {
-    return (
-        <div className="content">
-        </div>
-    );
+  return (
+    <div className='content'>
+      <MintPage></MintPage>
+    </div>
+  );
 }
 export default Minting;
