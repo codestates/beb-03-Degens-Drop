@@ -29,22 +29,30 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 
 import ThemeContextWrapper from "./components/ThemeWrapper/ThemeWrapper";
 import BackgroundColorWrapper from "./components/BackgroundColorWrapper/BackgroundColorWrapper";
+import { ReactQueryDevtools } from 'react-query/devtools'
 
-import { StoreProvider } from "./states/Context";
-import { RootStore } from "./states/RootStore";
+import Store from "./store";
 
-const rootStore = new RootStore();
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query'
+
+const queryClient = new QueryClient()
 
 ReactDOM.render(
   <ThemeContextWrapper>
     <BackgroundColorWrapper>
-      <StoreProvider value={rootStore}>
-        <BrowserRouter>
-          <Switch>
-            <Route path='/' render={(props) => <DefaultLayout {...props} />} />
-          </Switch>
-        </BrowserRouter>
-      </StoreProvider>
+      <Store>
+        <QueryClientProvider client={queryClient}>
+          <BrowserRouter>
+            <Switch>
+              <Route path='/' render={(props) => <DefaultLayout {...props} />} />
+            </Switch>
+            <ReactQueryDevtools initialIsOpen={false} />
+          </BrowserRouter>
+        </QueryClientProvider>
+      </Store>
     </BackgroundColorWrapper>
   </ThemeContextWrapper>,
   document.getElementById("root")

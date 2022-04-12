@@ -1,9 +1,11 @@
 import { BlockchainStore } from "./BlockchainStore";
 
-export class RootStore {
+class RootStore {
   blockchainStore;
 
   constructor() {
     this.blockchainStore = new BlockchainStore(this);
   }
 }
+
+export default new RootStore();

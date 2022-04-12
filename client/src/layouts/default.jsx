@@ -14,7 +14,7 @@ import { BackgroundColorContext } from "contexts/BackgroundColorContext";
 //const routes = leftRoutes.slice(0, leftRoutes.length - 1);
 
 import Web3 from "web3";
-import { useStores } from "states/Context";
+import useStores from "hooks/useStore";
 import { observer } from "mobx-react";
 var ps;
 
@@ -84,15 +84,21 @@ export default observer((props) => {
     return routes.map((prop, key) => {
       if (prop.layout === "/") {
         return <Route path={prop.path} component={prop.component} key={key} />;
-      } else {
-        return null;
+      }
+      else if (prop.layout === "/asset") {
+        console.log("/asset page")
+        return <Route path={prop.path} component={prop.component} key={key} />;
+      }
+      else {
+        return <Redirect from='*' to='/main' />;
       }
     });
   };
   const getBrandText = (path) => {
-    for (let i = 0; i < routes.length; i++) {
-      if (location.pathname.indexOf(routes[i].layout + routes[i].path) !== -1) {
-        return routes[i].name;
+    const newRoutes = routes.filter(el => el.dashBoardView === true)
+    for (let i = 0; i < newRoutes.length; i++) {
+      if (path.pathname === newRoutes[i].path) {
+        return newRoutes[i].name;
       }
     }
     return "DEGENS DROP";
@@ -100,10 +106,10 @@ export default observer((props) => {
   return (
     <BackgroundColorContext.Consumer>
       {({ color, changeColor }) => (
-        <React.Fragment>
+        <>
           <div className='wrapper'>
             <Sidebar
-              routes={routes}
+              routes={routes.filter(el => el.dashBoardView === true)}
               logo={{
                 outterLink: "/",
                 text: "DEGENS_DROP",
@@ -113,22 +119,17 @@ export default observer((props) => {
             />
             <div className='main-panel' ref={mainPanelRef} data={color}>
               <AdminNavbar
-                brandText={getBrandText(location.pathname)}
+                brandText={getBrandText(location)}
                 toggleSidebar={toggleSidebar}
                 sidebarOpened={sidebarOpened}
               />
               <Switch>
                 {getRoutes(routes)}
-                <Redirect from='*' to='/main' />
               </Switch>
-              {
-                // we don't want the Footer to be rendered on map page
-                location.pathname === "/admin/maps" ? null : <Footer fluid />
-              }
             </div>
           </div>
           <FixedPlugin bgColor={color} handleBgClick={changeColor} />
-        </React.Fragment>
+        </>
       )}
     </BackgroundColorContext.Consumer>
   );

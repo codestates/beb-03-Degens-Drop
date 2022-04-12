@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useStores } from "states/Context";
+import useStores from "hooks/useStore";
 import { observer } from "mobx-react";
 import { abi, address } from "../../erc721Abi";
 import { create as ipfsHttpClient } from "ipfs-http-client";
