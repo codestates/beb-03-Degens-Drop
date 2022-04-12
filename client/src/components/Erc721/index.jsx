@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Web3 from "web3";
 import TokenList from "./TokenList";
 import erc721Abi from "../../erc721Abi";
-import { useStores } from "states/Context";
+import useStores from "hooks/useStore";
 
 function App() {
   const [web3, setWeb3] = useState();
