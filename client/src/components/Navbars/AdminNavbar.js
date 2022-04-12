@@ -94,7 +94,21 @@ export default observer((props) => {
     const accounts = await blockchainStore.blockchain.web3.eth.getAccounts();
     saveAccount(accounts[0]);
     window.ethereum.on("accountsChanged", (accounts) => {
-      blockchainStore.setAccount(accounts[0]);
+      console.log(accounts);
+      saveAccount(accounts[0]);
+
+      const options = {
+        place: "br",
+        message: (
+          <div>
+            <div>{`${accounts[0]}로 연결되었습니다.`}</div>
+          </div>
+        ),
+        type: "success",
+        icon: "",
+        autoDismiss: 5,
+      };
+      notiRef.current.notificationAlert(options);
     });
 
     const options = {
@@ -102,6 +116,24 @@ export default observer((props) => {
       message: (
         <div>
           <div>지갑 연결 성공</div>
+        </div>
+      ),
+      type: "success",
+      icon: "",
+      autoDismiss: 5,
+    };
+    notiRef.current.notificationAlert(options);
+  };
+
+  const logout = () => {
+    window.localStorage.removeItem("account");
+    blockchainStore.setAccount("");
+
+    const options = {
+      place: "br",
+      message: (
+        <div>
+          <div>로그아웃 되었습니다.</div>
         </div>
       ),
       type: "success",
@@ -187,7 +219,9 @@ export default observer((props) => {
                   </NavLink>
                   <DropdownItem divider tag='li' />
                   <NavLink tag='li'>
-                    <DropdownItem className='nav-item'>Log out</DropdownItem>
+                    <DropdownItem className='nav-item' onClick={logout}>
+                      Log out
+                    </DropdownItem>
                   </NavLink>
                 </DropdownMenu>
               </UncontrolledDropdown>
