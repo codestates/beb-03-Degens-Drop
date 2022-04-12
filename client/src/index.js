@@ -31,15 +31,24 @@ import BackgroundColorWrapper from "./components/BackgroundColorWrapper/Backgrou
 
 import Store from "./store";
 
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query'
+
+const queryClient = new QueryClient()
+
 ReactDOM.render(
   <ThemeContextWrapper>
     <BackgroundColorWrapper>
       <Store>
-        <BrowserRouter>
-          <Switch>
-            <Route path='/' render={(props) => <DefaultLayout {...props} />} />
-          </Switch>
-        </BrowserRouter>
+        <QueryClientProvider client={queryClient}>
+          <BrowserRouter>
+            <Switch>
+              <Route path='/' render={(props) => <DefaultLayout {...props} />} />
+            </Switch>
+          </BrowserRouter>
+        </QueryClientProvider>
       </Store>
     </BackgroundColorWrapper>
   </ThemeContextWrapper>,
