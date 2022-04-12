@@ -1,8 +1,8 @@
 import {
   useQuery,
 } from 'react-query';
-const UseRetrievingAssetsQuery = () => {
-  return useQuery(["Retrieving", "assets"],
+const useRetrievingAssetsQuery = () => {
+  return useQuery(["useRetrievingAssetsQuery"],
     () => fetch('https://testnets-api.opensea.io/api/v1/assets?order_direction=desc&offset=0&limit=20')
       .then(response => response.json())
       .then(({ assets = [] }) => {
@@ -11,4 +11,4 @@ const UseRetrievingAssetsQuery = () => {
       })
   )
 }
-export default UseRetrievingAssetsQuery;
+export default useRetrievingAssetsQuery;

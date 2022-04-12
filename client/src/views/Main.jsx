@@ -4,17 +4,17 @@ import Cell from "./../components/Cell";
 function Main() {
   const { isError, isLoading, error, data } = useRetrievingAssetsQuery();
   if (isLoading) {
-    return <span>Loading...</span>
+    return <div className='content'><span>Loading...</span></div>
   }
 
   if (isError) {
-    return <span>Error: {error.message}</span>
+    return <div className='content'><span>Error: {error.message}</span></div>
   }
   console.log(data);
   return <div className='content'>
-    <div class="row">{
-      data.map(({ id, creator, name, image_url, description }) => {
-        return <Cell key={id} name={name} imageDescription={description} imageSrc={image_url}>{id}</Cell>
+    <div className="row">{
+      data.map((asset) => {
+        return <Cell key={asset.id} asset={asset}>{asset.id}</Cell>
       })
     }
     </div>
