@@ -43,6 +43,7 @@ const MintPage = observer(() => {
 
     const name = nameEl.current.value;
     const description = descEl.current.value;
+
     if (
       name !== "" &&
       description !== "" &&
@@ -88,7 +89,7 @@ const MintPage = observer(() => {
         });
         return;
       }
-
+      console.log(`https://ipfs.infura.io/ipfs/${resultMetadata.path}`);
       try {
         const uri = `https://ipfs.infura.io/ipfs/${resultMetadata.path}`;
         setIsLoading(true);
@@ -106,6 +107,7 @@ const MintPage = observer(() => {
         });
         console.log(tokenId);
         setIsLoading(false);
+        return;
       } catch (err) {
         notiRef.current.notificationAlert({
           ...options,
@@ -122,6 +124,7 @@ const MintPage = observer(() => {
         return;
       }
     }
+
     notiRef.current.notificationAlert({
       ...options,
       message: (
@@ -144,12 +147,17 @@ const MintPage = observer(() => {
               name='name'
               id='name'
               placeholder='NFT 이름'
-              ref={nameEl}
+              innerRef={nameEl}
             />
           </FormGroup>
           <FormGroup>
             <Label for='description'>설명</Label>
-            <Input type='textarea' name='text' id='description' ref={descEl} />
+            <Input
+              type='textarea'
+              name='text'
+              id='description'
+              innerRef={descEl}
+            />
           </FormGroup>
           <FormGroup>
             <Label for='collection'>컬렉션</Label>
