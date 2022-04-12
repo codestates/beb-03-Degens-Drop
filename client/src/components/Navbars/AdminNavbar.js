@@ -80,13 +80,19 @@ export default observer((props) => {
     setmodalSearch(!modalSearch);
   };
 
+  const saveAccount = (account) => {
+    window.localStorage.setItem("account", JSON.stringify({ account }));
+    const connectedAccount = JSON.parse(localStorage.getItem("account"));
+    blockchainStore.setAccount(connectedAccount.account);
+  };
+
   const connectToWallet = async () => {
     await window.ethereum.request({
       method: "eth_requestAccounts",
     });
     console.log(blockchainStore.blockchain);
     const accounts = await blockchainStore.blockchain.web3.eth.getAccounts();
-    blockchainStore.setAccount(accounts[0]);
+    saveAccount(accounts[0]);
     window.ethereum.on("accountsChanged", (accounts) => {
       blockchainStore.setAccount(accounts[0]);
     });
@@ -104,6 +110,16 @@ export default observer((props) => {
     };
     notiRef.current.notificationAlert(options);
   };
+
+  React.useEffect(() => {
+    function checkSavedAccount() {
+      const connectedAccount = JSON.parse(localStorage.getItem("account"));
+      if (connectedAccount !== null) {
+        blockchainStore.setAccount(connectedAccount.account);
+      }
+    }
+    checkSavedAccount();
+  }, []);
   return (
     <>
       <Navbar className={classNames("navbar-absolute", color)} expand='lg'>
