@@ -7,10 +7,6 @@ const useRetrievingSingleAssetQuery = (contractAddress, token_id) => {
   return useQuery(["useRetrievingSingleAssetQuery", contractAddress, token_id],
     () => fetch(`https://testnets-api.opensea.io/api/v1/asset/${contractAddress}/${token_id}/`)
       .then(response => response.json())
-      .then(({ assets = [] }) => {
-        console.log("assets : ", assets)
-        return assets;
-      })
   )
 }
 export default useRetrievingSingleAssetQuery;

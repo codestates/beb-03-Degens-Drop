@@ -1,6 +1,7 @@
 import React from "react";
 import useRetrievingAssetsQuery from "hooks/useRetrievingAssetsQuery";
 import Cell from "./../components/Cell";
+import { Link } from 'react-router-dom';
 function Main() {
   const { isError, isLoading, error, data } = useRetrievingAssetsQuery();
   if (isLoading) {
@@ -14,7 +15,11 @@ function Main() {
   return <div className='content'>
     <div className="row">{
       data.map((asset) => {
-        return <Cell key={asset.id} asset={asset}>{asset.id}</Cell>
+        console.log(asset)
+        return <Link key={asset.id} to={`/asset/${asset?.asset_contract?.address}/${asset?.token_id}`}>
+          <Cell key={asset.id} asset={asset}>{asset.id}</Cell>
+        </Link>
+        // <Cell key={asset.id} asset={asset}>{asset.id}</Cell>
       })
     }
     </div>

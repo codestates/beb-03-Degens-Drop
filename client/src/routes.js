@@ -1,11 +1,11 @@
 import Main from "views/Main";
 import Minting from "views/Minting";
 import MyPage from "views/MyPage";
-import AssetPage from "views/AssetPage";
+import Asset from "views/Asset";
 
 var routes = [
   {
-    path: "/main",
+    path: "/",
     name: "Degens-Drop",
     icon: "tim-icons icon-chart-pie-36",
     component: Main,
@@ -31,10 +31,10 @@ var routes = [
 
   },
   {
-    path: "/asset",
+    path: "/asset/:asset_contract_address/:token_id",
     name: "asset",
     icon: "tim-icons icon-chart-pie-36",
-    component: AssetPage,
+    component: Asset,
     layout: "/asset",
     dashBoardView: false,
   },

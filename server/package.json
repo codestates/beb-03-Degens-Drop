@@ -6,6 +6,7 @@
     "start": "nodemon ./bin/www"
   },
   "dependencies": {
+    "axios": "^0.26.1",
     "caver-js": "^1.8.1",
     "cookie-parser": "~1.4.4",
     "cross-env": "^7.0.3",

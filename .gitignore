@@ -4,3 +4,8 @@ server/node_modules
 
 .env
 uploads
+
+
+yarn.lock
+
+package-lock.json
