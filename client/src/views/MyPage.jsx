@@ -20,14 +20,13 @@ const RowCell = ({ account }) => {
             <span>Error: {error.message}</span>
         </div >
     }
-
     return <>
         <Card className="p-3" >
             <CardText>지갑 주소 : {account}</CardText>
             <div className="row">
                 {data.map(asset => {
-                    return <Link to={`/${asset?.asset_contract?.address}/${asset?.token_id}`}>
-                        <Cell key={asset.id} asset={asset}></Cell>
+                    return <Link key={asset.id} to={`/asset/${asset?.asset_contract?.address}/${asset?.token_id}`}>
+                        <Cell asset={asset}></Cell>
                     </Link>
                 })}
             </div>

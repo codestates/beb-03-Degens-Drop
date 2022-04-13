@@ -83,10 +83,9 @@ export default observer((props) => {
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
       if (prop.layout === "/") {
-        return <Route path={prop.path} component={prop.component} key={key} />;
+        return <Route exact path={prop.path} component={prop.component} key={key} />;
       }
       else if (prop.layout === "/asset") {
-        console.log("/asset page")
         return <Route path={prop.path} component={prop.component} key={key} />;
       }
       else {
