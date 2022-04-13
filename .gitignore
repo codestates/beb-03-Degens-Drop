@@ -5,7 +5,9 @@ server/node_modules
 .env
 uploads
 
+.deps
+
+artifacts
 
 yarn.lock
-
 package-lock.json
