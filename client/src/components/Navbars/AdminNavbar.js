@@ -80,15 +80,35 @@ export default observer((props) => {
     setmodalSearch(!modalSearch);
   };
 
+  const saveAccount = (account) => {
+    window.localStorage.setItem("account", JSON.stringify({ account }));
+    const connectedAccount = JSON.parse(localStorage.getItem("account"));
+    blockchainStore.setAccount(connectedAccount.account);
+  };
+
   const connectToWallet = async () => {
     await window.ethereum.request({
       method: "eth_requestAccounts",
     });
     console.log(blockchainStore.blockchain);
     const accounts = await blockchainStore.blockchain.web3.eth.getAccounts();
-    blockchainStore.setAccount(accounts[0]);
+    saveAccount(accounts[0]);
     window.ethereum.on("accountsChanged", (accounts) => {
-      blockchainStore.setAccount(accounts[0]);
+      console.log(accounts);
+      saveAccount(accounts[0]);
+
+      const options = {
+        place: "br",
+        message: (
+          <div>
+            <div>{`${accounts[0]}로 연결되었습니다.`}</div>
+          </div>
+        ),
+        type: "success",
+        icon: "",
+        autoDismiss: 5,
+      };
+      notiRef.current.notificationAlert(options);
     });
 
     const options = {
@@ -104,6 +124,34 @@ export default observer((props) => {
     };
     notiRef.current.notificationAlert(options);
   };
+
+  const logout = () => {
+    window.localStorage.removeItem("account");
+    blockchainStore.setAccount("");
+
+    const options = {
+      place: "br",
+      message: (
+        <div>
+          <div>로그아웃 되었습니다.</div>
+        </div>
+      ),
+      type: "success",
+      icon: "",
+      autoDismiss: 5,
+    };
+    notiRef.current.notificationAlert(options);
+  };
+
+  React.useEffect(() => {
+    function checkSavedAccount() {
+      const connectedAccount = JSON.parse(localStorage.getItem("account"));
+      if (connectedAccount !== null) {
+        blockchainStore.setAccount(connectedAccount.account);
+      }
+    }
+    checkSavedAccount();
+  }, []);
   return (
     <>
       <Navbar className={classNames("navbar-absolute", color)} expand='lg'>
@@ -171,7 +219,9 @@ export default observer((props) => {
                   </NavLink>
                   <DropdownItem divider tag='li' />
                   <NavLink tag='li'>
-                    <DropdownItem className='nav-item'>Log out</DropdownItem>
+                    <DropdownItem className='nav-item' onClick={logout}>
+                      Log out
+                    </DropdownItem>
                   </NavLink>
                 </DropdownMenu>
               </UncontrolledDropdown>
