@@ -3,6 +3,7 @@ import Minting from "views/Minting";
 import MyPage from "views/MyPage";
 import Asset from "views/Asset";
 import Market from "views/Market";
+import Assets from "views/Assets";
 
 var routes = [
   {
@@ -37,6 +38,14 @@ var routes = [
     icon: "tim-icons icon-chart-pie-36",
     component: Asset,
     layout: "/asset",
+    dashBoardView: false,
+  },
+  {
+    path: "/assets",
+    name: "assets",
+    icon: "tim-icons icon-chart-pie-36",
+    component: Assets,
+    layout: "/assets",
     dashBoardView: false,
   },
   {
