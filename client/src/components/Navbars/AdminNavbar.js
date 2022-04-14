@@ -1,20 +1,3 @@
-/*!
-
-=========================================================
-* Black Dashboard React v1.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/black-dashboard-react
-* Copyright 2020 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/black-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React, { useRef } from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
@@ -37,11 +20,14 @@ import {
   Modal,
   NavbarToggler,
   ModalHeader,
+  Dropdown,
 } from "reactstrap";
 import Notify from "react-notification-alert";
 
 import useStores from "hooks/useStore";
 import { observer } from "mobx-react";
+import SearchInputBar from "./SearchInputBar.jsx";
+import { StyledReactStrapModalHeader } from "./NavBar.styled";
 
 export default observer((props) => {
   const [collapseOpen, setcollapseOpen] = React.useState(false);
@@ -268,8 +254,8 @@ export default observer((props) => {
         isOpen={modalSearch}
         toggle={toggleModalSearch}
       >
-        <ModalHeader>
-          <Input placeholder='SEARCH' type='text' />
+        <StyledReactStrapModalHeader >
+          <SearchInputBar></SearchInputBar>
           <button
             aria-label='Close'
             className='close'
@@ -277,7 +263,7 @@ export default observer((props) => {
           >
             <i className='tim-icons icon-simple-remove' />
           </button>
-        </ModalHeader>
+        </StyledReactStrapModalHeader>
       </Modal>
       <Notify ref={notiRef} />
     </>

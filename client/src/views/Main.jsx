@@ -13,13 +13,12 @@ function Main() {
   }
   console.log(data);
   return <div className='content'>
-    <div className="row">{
+    <div className="row justify-content-center">{
       data.map((asset) => {
         console.log(asset)
         return <Link key={asset.id} to={`/asset/${asset?.asset_contract?.address}/${asset?.token_id}`}>
           <Cell key={asset.id} asset={asset}>{asset.id}</Cell>
         </Link>
-        // <Cell key={asset.id} asset={asset}>{asset.id}</Cell>
       })
     }
     </div>

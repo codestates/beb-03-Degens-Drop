@@ -72,6 +72,7 @@ export default observer((props) => {
 
         const marketContract = new web.eth.Contract(abi, address);
         blockchainStore.setMarketContract(marketContract);
+        console.log('here', marketContract);
       } catch (err) {
         console.log(err);
       }
@@ -92,8 +93,10 @@ export default observer((props) => {
         );
       } else if (prop.layout === "/asset") {
         return <Route path={prop.path} component={prop.component} key={key} />;
+      } else if (prop.layout === "/assets") {
+        return <Route path={prop.path} component={prop.component} key={key} />;
       } else {
-        return <Redirect from='*' to='/main' />;
+        return <Redirect from='*' to='/' />;
       }
     });
   };
