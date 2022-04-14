@@ -29,6 +29,7 @@ export class BlockchainStore {
       web3: undefined,
       account: "",
       nftContract: undefined,
+      marketContract: undefined,
     };
   }
 
@@ -41,5 +42,10 @@ export class BlockchainStore {
   setAccount(account) {
     this.blockchain = { ...this.blockchain, account };
     console.log(this.blockchain.account);
+  }
+
+  setMarketContract(marketContract) {
+    this.blockchain = { ...this.blockchain, marketContract };
+    console.log("marketContract", this.blockchain.marketContract);
   }
 }

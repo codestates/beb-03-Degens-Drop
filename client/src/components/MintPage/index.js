@@ -7,6 +7,7 @@ import { create as ipfsHttpClient } from "ipfs-http-client";
 import { FormGroup, Label, Input, Card, CardBody, Button } from "reactstrap";
 import Notify from "react-notification-alert";
 import Loading from "components/Loading";
+import { address as marketAddress } from "../../marketAbi";
 
 const client = ipfsHttpClient("https://ipfs.infura.io:5001/api/v0");
 
@@ -93,9 +94,21 @@ const MintPage = observer(() => {
       try {
         const uri = `https://ipfs.infura.io/ipfs/${resultMetadata.path}`;
         setIsLoading(true);
+
+        const isApproved = await nftContract.methods
+          .isApprovedForAll(blockchainStore.blockchain.account, marketAddress)
+          .call();
+        console.log(marketAddress);
+
         const tokenId = await nftContract.methods
           .mintNFT(blockchainStore.blockchain.account, uri)
           .send({ from: blockchainStore.blockchain.account });
+
+        if (!isApproved) {
+          await nftContract.methods
+            .setApprovalForAll(marketAddress, true)
+            .send({ from: blockchainStore.blockchain.account });
+        }
         notiRef.current.notificationAlert({
           ...options,
           type: "success",

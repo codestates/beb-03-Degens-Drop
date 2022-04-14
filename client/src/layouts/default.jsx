@@ -16,6 +16,7 @@ import { BackgroundColorContext } from "contexts/BackgroundColorContext";
 import Web3 from "web3";
 import useStores from "hooks/useStore";
 import { observer } from "mobx-react";
+import { abi, address } from "../marketAbi";
 var ps;
 
 export default observer((props) => {
@@ -68,6 +69,9 @@ export default observer((props) => {
       try {
         const web = new Web3(window.ethereum); // 새로운 web3 객체를 만든다
         blockchainStore.setWeb3(web);
+
+        const marketContract = new web.eth.Contract(abi, address);
+        blockchainStore.setMarketContract(marketContract);
       } catch (err) {
         console.log(err);
       }
@@ -83,18 +87,18 @@ export default observer((props) => {
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
       if (prop.layout === "/") {
-        return <Route exact path={prop.path} component={prop.component} key={key} />;
-      }
-      else if (prop.layout === "/asset") {
+        return (
+          <Route exact path={prop.path} component={prop.component} key={key} />
+        );
+      } else if (prop.layout === "/asset") {
         return <Route path={prop.path} component={prop.component} key={key} />;
-      }
-      else {
+      } else {
         return <Redirect from='*' to='/main' />;
       }
     });
   };
   const getBrandText = (path) => {
-    const newRoutes = routes.filter(el => el.dashBoardView === true)
+    const newRoutes = routes.filter((el) => el.dashBoardView === true);
     for (let i = 0; i < newRoutes.length; i++) {
       if (path.pathname === newRoutes[i].path) {
         return newRoutes[i].name;
@@ -108,7 +112,7 @@ export default observer((props) => {
         <>
           <div className='wrapper'>
             <Sidebar
-              routes={routes.filter(el => el.dashBoardView === true)}
+              routes={routes.filter((el) => el.dashBoardView === true)}
               logo={{
                 outterLink: "/",
                 text: "DEGENS_DROP",
@@ -122,9 +126,7 @@ export default observer((props) => {
                 toggleSidebar={toggleSidebar}
                 sidebarOpened={sidebarOpened}
               />
-              <Switch>
-                {getRoutes(routes)}
-              </Switch>
+              <Switch>{getRoutes(routes)}</Switch>
             </div>
           </div>
           <FixedPlugin bgColor={color} handleBgClick={changeColor} />
