@@ -59,6 +59,31 @@ const Contract = observer(
       setSellModalIsOpen((prev) => !prev);
     };
 
+    const buyNFT = async (e) => {
+      e.preventDefault();
+
+      const onSaleNfts = await blockchainStore.blockchain.marketContract.methods
+        .getNfts()
+        .call();
+      for (let i = 0; i < onSaleNfts.length; i++) {
+        if (
+          onSaleNfts[i][2].toLowerCase() === address.toLowerCase() &&
+          onSaleNfts[i][3] === tokenId
+        ) {
+          await blockchainStore.blockchain.marketContract.methods
+            .buyNft(onSaleNfts[i][0])
+            .send({
+              from: blockchainStore.blockchain.account,
+              value: blockchainStore.blockchain.web3.utils.toWei(
+                price,
+                "ether"
+              ),
+            });
+          return;
+        }
+      }
+    };
+
     useEffect(() => {
       async function isOnMarket() {
         const onSaleNfts =
@@ -79,10 +104,19 @@ const Contract = observer(
           }
         }
       }
+      console.log("account", blockchainStore.blockchain.account);
+      console.log("owner", owner);
+      if (blockchainStore.blockchain.account === owner) {
+        setIsOwner(true);
+      } else {
+        setIsOwner(false);
+      }
       isOnMarket();
     }, []);
 
     useEffect(() => {
+      console.log("account", blockchainStore.blockchain.account);
+      console.log("owner", owner);
       if (blockchainStore.blockchain.account === owner) {
         setIsOwner(true);
       } else {
@@ -178,7 +212,12 @@ const Contract = observer(
                 </>
               ) : null
             ) : (
-              <Button className='btn-fill' color='primary' type='submit'>
+              <Button
+                className='btn-fill'
+                color='primary'
+                type='submit'
+                onClick={buyNFT}
+              >
                 Buy
               </Button>
             )}
