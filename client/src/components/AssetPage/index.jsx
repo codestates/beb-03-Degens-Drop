@@ -70,7 +70,7 @@ const AssetPage = ({ data, tokenId }) => {
         </Col>
         <Col md="7">
           <Owner owner={owner} />
-          <Contract asset_contract={asset_contract} />
+          <Contract ownerAddress={owner.address} tokenId={tokenId} asset_contract={asset_contract} />
         </Col>
       </Row>
     </div>

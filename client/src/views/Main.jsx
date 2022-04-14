@@ -19,7 +19,6 @@ function Main() {
         return <Link key={asset.id} to={`/asset/${asset?.asset_contract?.address}/${asset?.token_id}`}>
           <Cell key={asset.id} asset={asset}>{asset.id}</Cell>
         </Link>
-        // <Cell key={asset.id} asset={asset}>{asset.id}</Cell>
       })
     }
     </div>

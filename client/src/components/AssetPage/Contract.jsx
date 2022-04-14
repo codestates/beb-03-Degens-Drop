@@ -38,7 +38,7 @@ const customStyles = {
 
 const Contract = observer(
     ({
-        owner,
+        ownerAddress,
         asset_contract: { address, name, created_date, schema_name },
         tokenId,
     }) => {
@@ -59,6 +59,31 @@ const Contract = observer(
         const onClickSellHandler = () => {
             setSellModalIsOpen((prev) => !prev);
         };
+
+        const buyNFT = async (e) => {
+      e.preventDefault();
+
+      const onSaleNfts = await blockchainStore.blockchain.marketContract.methods
+        .getNfts()
+        .call();
+      for (let i = 0; i < onSaleNfts.length; i++) {
+        if (
+          onSaleNfts[i][2].toLowerCase() === address.toLowerCase() &&
+          onSaleNfts[i][3] === tokenId
+        ) {
+          await blockchainStore.blockchain.marketContract.methods
+            .buyNft(onSaleNfts[i][0])
+            .send({
+              from: blockchainStore.blockchain.account,
+              value: blockchainStore.blockchain.web3.utils.toWei(
+                price,
+                "ether"
+              ),
+            });
+          return;
+        }
+      }
+    };
 
         useEffect(() => {
             async function isOnMarket() {
@@ -84,12 +109,15 @@ const Contract = observer(
         }, []);
 
         useEffect(() => {
-            if (blockchainStore.blockchain.account === owner) {
+            console.log('account', blockchainStore.blockchain.account);
+            console.log('owner', ownerAddress);
+            if (blockchainStore.blockchain.account.toLowerCase() === ownerAddress.toLowerCase()) {
+                console.log("setIsOwner true")
                 setIsOwner(true);
             } else {
                 setIsOwner(false);
             }
-        }, [blockchainStore.blockchain.account, owner]);
+        }, [blockchainStore.blockchain.account, ownerAddress]);
 
         return (
             <>
@@ -148,7 +176,7 @@ const Contract = observer(
                                 </>
                             ) : null
                         ) : (
-                            <Button className='btn-fill' color='primary' type='submit'>
+                            <Button className='btn-fill' color='primary' type='submit' onClick={buyNFT}>
                                 Buy
                             </Button>
                         )}

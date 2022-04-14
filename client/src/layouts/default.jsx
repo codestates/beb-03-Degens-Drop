@@ -72,6 +72,7 @@ export default observer((props) => {
 
         const marketContract = new web.eth.Contract(abi, address);
         blockchainStore.setMarketContract(marketContract);
+        console.log('here', marketContract);
       } catch (err) {
         console.log(err);
       }
