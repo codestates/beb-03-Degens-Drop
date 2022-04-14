@@ -2,6 +2,7 @@ import Main from "views/Main";
 import Minting from "views/Minting";
 import MyPage from "views/MyPage";
 import Asset from "views/Asset";
+import Market from "views/Market";
 
 var routes = [
   {
@@ -37,6 +38,14 @@ var routes = [
     component: Asset,
     layout: "/asset",
     dashBoardView: false,
+  },
+  {
+    path: "/market",
+    name: "마켓",
+    icon: "tim-icons icon-chart-pie-36",
+    component: Market,
+    layout: "/",
+    dashBoardView: true,
   },
 ];
 export default routes;

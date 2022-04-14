@@ -12,6 +12,10 @@ import {
     Input,
     Row,
     Col,
+    Modal,
+    ModalHeader,
+    ModalBody,
+    ModalFooter
 } from "reactstrap";
 import Contract from './Contract';
 import Notifications from './Notification';
@@ -19,11 +23,22 @@ import Notifications from './Notification';
 import Owner from './Owner';
 
 const AssetPage = ({ data }) => {
+    const [modalIsOpen, setModalIsOpen] = useState(false);
     const { owner, creator: { profile_img_url } = {}, asset_contract = {}, image_url, image_original_url, name = "", description = "" } = data;
+    const onClickToggleOpen = (e) => {
+        e.preventDefault()
+        setModalIsOpen(prev => !prev);
+    }
     return (<>
+        <Modal size={"xl"} isOpen={modalIsOpen} toggle={onClickToggleOpen}>
+            {/* <ModalHeader toggle={onClickToggleOpen}>{name}</ModalHeader> */}
+            <ModalBody>
+                <img src={image_original_url || image_url} alt={name}></img>
+            </ModalBody>
+        </Modal>
         <div className="content">
             <Row>
-                <Col md="4">
+                <Col md="5">
                     <Card className="card-user">
                         <CardBody>
                             <CardText />
@@ -32,7 +47,7 @@ const AssetPage = ({ data }) => {
                                 <div className="block block-two" />
                                 <div className="block block-three" />
                                 <div className="block block-four" />
-                                <a href="#pablo" style={{ position: "relative" }} onClick={(e) => e.preventDefault()}>
+                                <a href="#pablo" style={{ position: "relative" }} onClick={onClickToggleOpen}>
                                     <CellImage
                                         image_original_url={image_original_url}
                                         image_url={image_url}
@@ -47,7 +62,7 @@ const AssetPage = ({ data }) => {
                         </CardBody>
                     </Card>
                 </Col>
-                <Col md="8">
+                <Col md="7">
                     <Owner owner={owner} />
                     <Contract asset_contract={asset_contract} />
                 </Col>

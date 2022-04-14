@@ -3,7 +3,7 @@ import { Button, Col, Row } from 'reactstrap';
 import NotificationAlert from "react-notification-alert";
 
 
-const CopyButton = ({ text }) => {
+const CopyButton = ({ text, children }) => {
     const notificationAlertRef = React.useRef(null);
     const onClickCopyHandler = async () => {
         try {

@@ -5,6 +5,7 @@ import useRetrievingOwnerAssetsQuery from 'hooks/useRetrievingOwnerAssetsQuery';
 import { Card, CardText } from 'reactstrap';
 import Cell from 'components/Cell';
 import { Link } from 'react-router-dom';
+import CopyButton from 'components/CopyButton';
 
 
 const RowCell = ({ account }) => {
@@ -22,8 +23,10 @@ const RowCell = ({ account }) => {
     }
     return <>
         <Card className="p-3" >
-            <CardText>지갑 주소 : {account}</CardText>
-            <div className="row">
+            <CardText className="row p-3 mb-3">
+                <h3 className="p-2">지갑 주소</h3><CopyButton text={account}></CopyButton>
+            </CardText>
+            <div className="row justify-content-center">
                 {data.map(asset => {
                     return <Link key={asset.id} to={`/asset/${asset?.asset_contract?.address}/${asset?.token_id}`}>
                         <Cell asset={asset}></Cell>
