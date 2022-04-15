@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "startNodemon": "nodemon ./bin/www",
-    "start": "pm2-runtime start ecosystem.config.js --env production"
+    "start": "nodemon ./bin/www",
+    "start2": "pm2-runtime start ecosystem.config.js --env production"
   },
   "dependencies": {
     "axios": "^0.26.1",
