@@ -1,0 +1,22 @@
+{
+  "name": "beb-03-degens-drop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "heroku": "git subtree push --prefix server heroku master"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jsc7727/beb-03-Degens-Drop.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jsc7727/beb-03-Degens-Drop/issues"
+  },
+  "homepage": "https://github.com/jsc7727/beb-03-Degens-Drop#readme",
+  "dependencies": {
+    "pm2": "^5.2.0"
+  }
+}
