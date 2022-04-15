@@ -2,7 +2,7 @@ module.exports = {
     apps: [{
         name: "DegensDrop",
         script: "./app.js",
-        instances: "max",
+        instances: "0",
         env: {
             NODE_ENV: "development",
         },
