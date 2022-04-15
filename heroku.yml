@@ -1,15 +1,9 @@
-version: "3.7"
-
-services:
-  sample:
-    container_name: react-dockerize
-    build:
-      context: .
-      dockerfile: ./client/Dockerfile
-    volumes:
-      - ".:/app"
-      - "/app/node_modules"
-    ports:
-      - "3001:3000"
-    environment:
-      - NODE_ENV=development
+build:
+  docker:
+    web: ./client/Dockerfile
+run:
+  web: bundle exec puma -C config/puma.rb
+  worker:
+    command:
+      - python myworker.py
+    image: web
