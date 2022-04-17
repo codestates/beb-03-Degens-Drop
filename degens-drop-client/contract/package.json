@@ -1,0 +1,12 @@
+{
+  "name": "contract",
+  "version": "1.0.0",
+  "description": "",
+  "main": "erc721Abi.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "remixd":"remixd -s D:/codestates/section5/beb-03-Degens-Drop/contract --remix-ide https://remix.ethereum.org"
+  },
+  "author": "",
+  "license": "ISC"
+}
