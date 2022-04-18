@@ -6,7 +6,7 @@ import { faImage } from '@fortawesome/fontawesome-free-solid'
 const CellImage = ({ image_original_url, image_url, name }) => {
     if (image_original_url === null && image_url === null) {
         return <div className='mx-auto text-center vertical-middle' style={{ height: "23rem" }}>
-            <FontAwesomeIcon icon={faImage} style={{ height: "23rem" }} />
+            <FontAwesomeIcon icon={faImage} style={{ height: "20rem" }} />
         </div>
     }
     else {

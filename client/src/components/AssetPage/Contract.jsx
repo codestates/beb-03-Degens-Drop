@@ -21,11 +21,6 @@ import { observer } from "mobx-react";
 
 Modal.setAppElement("#root");
 const customStyles = {
-    overlay: {
-        opacity: 0.8,
-        background: "black",
-        zIndex: 10,
-    },
     content: {
         top: "50%",
         left: "50%",
@@ -46,7 +41,6 @@ const Contract = observer(
         const [sellModalIsOpen, setSellModalIsOpen] = useState(false);
         const [isOwner, setIsOwner] = useState(false);
         const [price, setPrice] = useState(0);
-        const [marketId, setMarketId] = useState();
         const { blockchainStore } = useStores();
 
         const onClickEtherscanHandler = (uri) => {
@@ -61,29 +55,29 @@ const Contract = observer(
         };
 
         const buyNFT = async (e) => {
-      e.preventDefault();
+            e.preventDefault();
 
-      const onSaleNfts = await blockchainStore.blockchain.marketContract.methods
-        .getNfts()
-        .call();
-      for (let i = 0; i < onSaleNfts.length; i++) {
-        if (
-          onSaleNfts[i][2].toLowerCase() === address.toLowerCase() &&
-          onSaleNfts[i][3] === tokenId
-        ) {
-          await blockchainStore.blockchain.marketContract.methods
-            .buyNft(onSaleNfts[i][0])
-            .send({
-              from: blockchainStore.blockchain.account,
-              value: blockchainStore.blockchain.web3.utils.toWei(
-                price,
-                "ether"
-              ),
-            });
-          return;
-        }
-      }
-    };
+            const onSaleNfts = await blockchainStore.blockchain.marketContract.methods
+                .getNfts()
+                .call();
+            for (let i = 0; i < onSaleNfts.length; i++) {
+                if (
+                    onSaleNfts[i][2].toLowerCase() === address.toLowerCase() &&
+                    onSaleNfts[i][3] === tokenId
+                ) {
+                    await blockchainStore.blockchain.marketContract.methods
+                        .buyNft(onSaleNfts[i][0])
+                        .send({
+                            from: blockchainStore.blockchain.account,
+                            value: blockchainStore.blockchain.web3.utils.toWei(
+                                price,
+                                "ether"
+                            ),
+                        });
+                    return;
+                }
+            }
+        };
 
         useEffect(() => {
             async function isOnMarket() {
@@ -121,6 +115,24 @@ const Contract = observer(
 
         return (
             <>
+                <Modal
+                    isOpen={modalIsOpen}
+                    onRequestClose={onClickReportHandler}
+                    style={customStyles}
+                    contentLabel="Example Modal"
+                >신고하기</Modal>
+                <Modal
+                    isOpen={sellModalIsOpen}
+                    onRequestClose={onClickSellHandler}
+                    style={customStyles}
+                    contentLabel='Sell Modal'
+                >
+                    <SellModal
+                        address={address}
+                        tokenId={tokenId}
+                        onClickSellHandler={onClickSellHandler}
+                    />
+                </Modal>
                 <Card>
                     <CardHeader>
                         <div className="row">
@@ -134,12 +146,7 @@ const Contract = observer(
                             <Button onClick={onClickReportHandler} className="btn-icon btn-round" color="google">
                                 <i className="icon-alert-circle-exc tim-icons" />
                             </Button>
-                            <Modal
-                                isOpen={modalIsOpen}
-                                onRequestClose={onClickReportHandler}
-                                style={customStyles}
-                                contentLabel="Example Modal"
-                            >신고하기</Modal>
+
                         </div>
                     </CardHeader>
                     <CardBody>
@@ -161,18 +168,6 @@ const Contract = observer(
                                     >
                                         sell
                                     </Button>
-                                    <Modal
-                                        isOpen={sellModalIsOpen}
-                                        onRequestClose={onClickSellHandler}
-                                        style={customStyles}
-                                        contentLabel='Sell Modal'
-                                    >
-                                        <SellModal
-                                            address={address}
-                                            tokenId={tokenId}
-                                            onClickSellHandler={onClickSellHandler}
-                                        />
-                                    </Modal>
                                 </>
                             ) : null
                         ) : (

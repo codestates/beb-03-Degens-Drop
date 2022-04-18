@@ -1,16 +1,19 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 
 import { FormGroup, Label, Input, Card, CardBody, Button } from "reactstrap";
 import useStores from "hooks/useStore";
 const SellModal = ({ address, tokenId, onClickSellHandler }) => {
-  const priceEl = useRef(null);
   const { blockchainStore } = useStores();
+  const [priceEl, setPriceEl] = useState();
+  const onChangeInputHandler = (e) => {
+    setPriceEl(e.target.value);
+  }
 
   const addToMarket = async (e) => {
     e.preventDefault();
-
+    console.log(priceEl)
     const price = blockchainStore.blockchain.web3.utils.toWei(
-      priceEl.current.value,
+      priceEl,
       "ether"
     );
     console.log(
@@ -29,21 +32,16 @@ const SellModal = ({ address, tokenId, onClickSellHandler }) => {
     <Card>
       <CardBody>
         <h1>판매하기</h1>
-        <form>
-          <FormGroup>
-            <Label for='name'>가격</Label>
-            <Input
-              type='text'
-              name='name'
-              id='name'
-              placeholder='ETH'
-              innerRef={priceEl}
-            />
-          </FormGroup>
-          <Button type='button' onClick={addToMarket}>
-            등록하기
-          </Button>
-        </form>
+        <h4>가격</h4>
+        <Input
+          type='text'
+          value={priceEl}
+          placeholder='ETH'
+          onChange={onChangeInputHandler}
+        />
+        <Button type='button' onClick={addToMarket}>
+          등록하기
+        </Button>
       </CardBody>
     </Card>
   );

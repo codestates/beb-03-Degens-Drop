@@ -24,7 +24,6 @@ const AssetPage = ({ data, tokenId }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const {
     owner,
-    creator: { profile_img_url } = {},
     asset_contract = {},
     image_url,
     image_original_url,
@@ -37,7 +36,6 @@ const AssetPage = ({ data, tokenId }) => {
   }
   return (<>
     <Modal size={"xl"} isOpen={modalIsOpen} toggle={onClickToggleOpen}>
-      {/* <ModalHeader toggle={onClickToggleOpen}>{name}</ModalHeader> */}
       <ModalBody>
         <img src={image_original_url || image_url} alt={name}></img>
       </ModalBody>
