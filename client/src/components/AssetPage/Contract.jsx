@@ -18,6 +18,8 @@ import CopyButton from 'components/CopyButton';
 import SellModal from "./SellModal";
 import useStores from "hooks/useStore";
 import { observer } from "mobx-react";
+import NotificationAlert from "react-notification-alert";
+
 
 Modal.setAppElement("#root");
 const customStyles = {
@@ -37,6 +39,7 @@ const Contract = observer(
         asset_contract: { address, name, created_date, schema_name },
         tokenId,
     }) => {
+        const notificationAlertRef = React.useRef(null);
         const [modalIsOpen, setModalIsOpen] = useState(false);
         const [sellModalIsOpen, setSellModalIsOpen] = useState(false);
         const [isOwner, setIsOwner] = useState(false);
@@ -54,28 +57,52 @@ const Contract = observer(
             setSellModalIsOpen((prev) => !prev);
         };
 
+        const notify = (place, text, type = "success") => {
+            var options = {};
+            options = {
+                place: place,
+                message: (
+                    <div>
+                        {text}
+                    </div>
+                ),
+                type: type,
+                icon: "tim-icons icon-bell-55",
+                autoDismiss: 7,
+            };
+            notificationAlertRef.current.notificationAlert(options);
+        };
+
         const buyNFT = async (e) => {
             e.preventDefault();
+            try {
+                const onSaleNfts = await blockchainStore.blockchain.marketContract.methods
+                    .getNfts()
+                    .call();
+                console.log("onSaleNfts", onSaleNfts)
+                for (let i = 0; i < onSaleNfts.length; i++) {
+                    if (
+                        onSaleNfts[i][2].toLowerCase() === address.toLowerCase() &&
+                        onSaleNfts[i][3] === tokenId
+                    ) {
+                        await blockchainStore.blockchain.marketContract.methods
+                            .buyNft(onSaleNfts[i][0])
+                            .send({
+                                from: blockchainStore.blockchain.account,
+                                value: blockchainStore.blockchain.web3.utils.toWei(
+                                    price,
+                                    "ether"
+                                ),
+                            });
+                        return;
+                    }
 
-            const onSaleNfts = await blockchainStore.blockchain.marketContract.methods
-                .getNfts()
-                .call();
-            for (let i = 0; i < onSaleNfts.length; i++) {
-                if (
-                    onSaleNfts[i][2].toLowerCase() === address.toLowerCase() &&
-                    onSaleNfts[i][3] === tokenId
-                ) {
-                    await blockchainStore.blockchain.marketContract.methods
-                        .buyNft(onSaleNfts[i][0])
-                        .send({
-                            from: blockchainStore.blockchain.account,
-                            value: blockchainStore.blockchain.web3.utils.toWei(
-                                price,
-                                "ether"
-                            ),
-                        });
-                    return;
                 }
+                notify("br", '판매중인 NFT가 아닙니다.');
+            }
+            catch (err) {
+                notify("br", '로그인을 해주세요.');
+                console.log(err);
             }
         };
 
@@ -112,6 +139,9 @@ const Contract = observer(
 
         return (
             <>
+                <div className="react-notification-alert-container">
+                    <NotificationAlert ref={notificationAlertRef} />
+                </div>
                 <Modal
                     isOpen={modalIsOpen}
                     onRequestClose={onClickReportHandler}
