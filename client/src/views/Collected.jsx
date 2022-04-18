@@ -14,7 +14,6 @@ import {
 } from "reactstrap";
 
 function UserProfile() {
-  console.log("profile**")
   return (
     <>
       <div className="content">

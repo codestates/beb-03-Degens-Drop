@@ -16,7 +16,6 @@ function Assets() {
     if (isError) {
         return <div className='content'><span>Error: {error.message}</span></div>
     }
-    console.log("data", data);
     return <div className='content'>
         <div>search : {data[0]}</div>
         <div className="row justify-content-center">

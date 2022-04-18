@@ -11,18 +11,18 @@ const SellModal = ({ address, tokenId, onClickSellHandler }) => {
 
   const addToMarket = async (e) => {
     e.preventDefault();
-    console.log(priceEl)
+    // console.log(priceEl)
     const price = blockchainStore.blockchain.web3.utils.toWei(
       priceEl,
       "ether"
     );
-    console.log(
-      address,
-      tokenId,
-      price,
-      blockchainStore.blockchain.marketContract,
-      blockchainStore.blockchain.account
-    );
+    // console.log(
+    //   address,
+    //   tokenId,
+    //   price,
+    //   blockchainStore.blockchain.marketContract,
+    //   blockchainStore.blockchain.account
+    // );
     await blockchainStore.blockchain.marketContract.methods
       .addNftToMarket(address, tokenId, price)
       .send({ from: blockchainStore.blockchain.account });

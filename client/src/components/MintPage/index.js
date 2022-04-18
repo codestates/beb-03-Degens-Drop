@@ -19,11 +19,11 @@ const MintPage = observer(() => {
   const descEl = useRef(null);
   const notiRef = useRef(null);
   const { blockchainStore } = useStores();
-  console.log("blockchainStore here: ", blockchainStore);
+  // console.log("blockchainStore here: ", blockchainStore);
 
   const getImage = (e) => {
     setImage(e.target.files[0]);
-    console.log(nftContract);
+    // console.log(nftContract);
   };
 
   const mintNFT = async (e) => {
@@ -90,7 +90,7 @@ const MintPage = observer(() => {
         });
         return;
       }
-      console.log(`https://ipfs.infura.io/ipfs/${resultMetadata.path}`);
+      // console.log(`https://ipfs.infura.io/ipfs/${resultMetadata.path}`);
       try {
         const uri = `https://ipfs.infura.io/ipfs/${resultMetadata.path}`;
         setIsLoading(true);
@@ -98,7 +98,7 @@ const MintPage = observer(() => {
         const isApproved = await nftContract.methods
           .isApprovedForAll(blockchainStore.blockchain.account, marketAddress)
           .call();
-        console.log(marketAddress);
+        // console.log(marketAddress);
 
         const tokenId = await nftContract.methods
           .mintNFT(blockchainStore.blockchain.account, uri)
@@ -118,7 +118,7 @@ const MintPage = observer(() => {
             </div>
           ),
         });
-        console.log(tokenId);
+        // console.log(tokenId);
         setIsLoading(false);
         return;
       } catch (err) {

@@ -35,7 +35,7 @@ export default observer((props) => {
   const [color, setcolor] = React.useState("navbar-transparent");
   const notiRef = useRef(null);
   const { blockchainStore } = useStores();
-  console.log("blockchainStore: ", blockchainStore);
+  // console.log("blockchainStore: ", blockchainStore);
 
   React.useEffect(() => {
     window.addEventListener("resize", updateColor);
@@ -76,11 +76,11 @@ export default observer((props) => {
     await window.ethereum.request({
       method: "eth_requestAccounts",
     });
-    console.log(blockchainStore.blockchain);
+    // console.log(blockchainStore.blockchain);
     const accounts = await blockchainStore.blockchain.web3.eth.getAccounts();
     saveAccount(accounts[0]);
     window.ethereum.on("accountsChanged", (accounts) => {
-      console.log(accounts);
+      // console.log(accounts);
       saveAccount(accounts[0]);
 
       const options = {

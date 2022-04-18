@@ -14,7 +14,7 @@ const useRetrievingAssetsQuery = (owner, asset_contract_addresses) => {
     () => fetch(uri)
       .then(response => response.json())
       .then(({ assets = [] }) => {
-        console.log("assets : ", assets)
+        // console.log("assets : ", assets)
         return assets;
       })
   )

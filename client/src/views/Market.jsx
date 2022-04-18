@@ -17,7 +17,6 @@ const MarketPage = ({ marketList }) => {
             <span>Error: {error.message}</span>
         );
     }
-    console.log("data", data);
     return <>
         <div className="row justify-content-center"> {
             data.map(asset =>
@@ -35,12 +34,14 @@ const Market = observer(() => {
     const [marketList, setMarketList] = useState([]);
     useEffect(() => {
         const getMarketList = async () => {
-            const marketList = await blockchainStore.blockchain.marketContract.methods
+            const marketList = await blockchainStore?.blockchain?.marketContract?.methods
                 .getNfts().call();
             setMarketList(marketList);
         }
-        getMarketList();
-    }, [])
+        if (blockchainStore.blockchain.marketContract !== undefined) {
+            getMarketList();
+        }
+    }, [blockchainStore?.blockchain])
     return <>
         <div className='content'>
             {marketList.length > 0 && <MarketPage marketList={marketList} />}

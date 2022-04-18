@@ -2,7 +2,7 @@ import CopyButton from 'components/CopyButton';
 import React from 'react';
 import { Button, Card, CardBody, CardFooter, CardText } from 'reactstrap';
 const Owner = ({ owner: { profile_img_url, address, name } = {} }) => {
-    console.log(profile_img_url, address, name)
+    // console.log(profile_img_url, address, name)
     const onClickEtherscanHandler = () => {
         const etherscanAddress = `https://rinkeby.etherscan.io/address/${address}`;
         window.location.href = etherscanAddress;

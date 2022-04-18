@@ -3,7 +3,7 @@ import {
 } from 'react-query';
 import axios from 'axios';
 const useRetrievingMarketListQuery = (nftList) => {
-  console.log("nftList", nftList)
+  // console.log("nftList", nftList)
   const tokenIdx = 3;
   const contractIdx = 2;
   const priceIdx = 4;
@@ -20,24 +20,24 @@ const useRetrievingMarketListQuery = (nftList) => {
       dict[nftList[i][contractIdx]] = [nftList[i][tokenIdx]];
     }
   }
-  console.log("dict2", dict2)
+  // console.log("dict2", dict2)
   return useQuery(["useRetrievingMarketListQuery"],
     async () => {
       const newNftList = [];
-      console.log(dict)
+      // console.log(dict)
       for (let [contractAddress, tokenList] of Object.entries(dict)) {
         let uri = `https://testnets-api.opensea.io/api/v1/assets?asset_contract_address=${contractAddress}`;
         for (let token_id of tokenList) {
           uri += `&token_ids=${token_id}`;
         }
         const res = await axios(uri);
-        console.log("res", res)
+        // console.log("res", res)
         const { assets } = res.data;
         const newAssets = assets.map(obj => {
-          console.log(obj?.asset_contract?.address)
-          console.log(obj?.token_id)
+          // console.log(obj?.asset_contract?.address)
+          // console.log(obj?.token_id)
           const hash = `${obj?.asset_contract?.address} ${obj?.token_id}`;
-          console.log('hash', hash);
+          // console.log('hash', hash);
           obj['tokenPrice'] = dict2[hash];
           return obj;
         });

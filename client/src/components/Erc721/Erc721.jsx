@@ -19,7 +19,7 @@ function Erc721({ web3, account, erc721list }) {
   return (
     <div className='erc721list'>
       {erc721list.map((token) => {
-        console.log("token", token);
+        // console.log("token", token);
         return (
           <div className='erc721token'>
             Name: <span className='name'>{token.name}</span>(

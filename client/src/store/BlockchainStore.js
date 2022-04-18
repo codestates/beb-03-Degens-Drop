@@ -36,16 +36,16 @@ export class BlockchainStore {
   setWeb3(web3) {
     //this.blockchain.web3 = web3;
     this.blockchain = { ...this.blockchain, web3 };
-    console.log(this.blockchain);
+    // console.log(this.blockchain);
   }
 
   setAccount(account) {
     this.blockchain = { ...this.blockchain, account };
-    console.log(this.blockchain.account);
+    // console.log(this.blockchain.account);
   }
 
   setMarketContract(marketContract) {
     this.blockchain = { ...this.blockchain, marketContract };
-    console.log("marketContract", this.blockchain.marketContract);
+    // console.log("marketContract", this.blockchain.marketContract);
   }
 }

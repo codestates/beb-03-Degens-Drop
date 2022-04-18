@@ -13,7 +13,7 @@ import useFromWei from 'hooks/useFromWei';
 fontawesome.library.add(faImage);
 
 const Cell = ({ asset: { tokenPrice, image_url, image_original_url, name, description } }) => {
-    console.log("cell", image_url, image_original_url, name, description)
+    // console.log("cell", image_url, image_original_url, name, description)
     const tokenEth = useFromWei(tokenPrice);
     return (
         <Card className='ml-4' style={{ width: '23rem', height: "28rem" }}>

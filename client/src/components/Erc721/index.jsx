@@ -21,9 +21,9 @@ function App() {
 
   const addNewErc721Token = async () => {
     const tokenContract = await new web3.eth.Contract(erc721Abi, newErc721addr);
-    console.log("tokenContract", tokenContract);
-    console.log("erc721Abi", erc721Abi);
-    console.log(await tokenContract.methods);
+    // console.log("tokenContract", tokenContract);
+    // console.log("erc721Abi", erc721Abi);
+    // console.log(await tokenContract.methods);
     const name = await tokenContract.methods.name().call();
     const symbol = await tokenContract.methods.symbol().call();
     const totalSupply = await tokenContract.methods.totalSupply().call();
