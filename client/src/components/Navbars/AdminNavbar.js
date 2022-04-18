@@ -178,12 +178,6 @@ export default observer((props) => {
                   nav
                   onClick={(e) => e.preventDefault()}
                 >
-                  {/* <div className="photo">
-                    <img
-                      alt="..."
-                      src={require("assets/img/anime3.png").default}
-                    />
-                  </div> */}
                   <i className='tim-icons icon-single-02' />
                   <b className='caret d-none d-lg-block d-xl-block' />
                   <p className='d-lg-none'>Log out</p>

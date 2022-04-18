@@ -15,7 +15,7 @@ const Search = () => {
         }
     }
     return <>
-        <Input className="" placeholder='SEARCH' type='text' onChange={onChangeHandler} onKeyPress={onKeyPressHandler} value={input}></Input>
+        <Input className="" placeholder='SEARCH BY ADDRESS' type='text' onChange={onChangeHandler} onKeyPress={onKeyPressHandler} value={input}></Input>
     </>
 }
 export default Search;

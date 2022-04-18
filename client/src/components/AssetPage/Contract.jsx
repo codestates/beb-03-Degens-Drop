@@ -103,10 +103,7 @@ const Contract = observer(
         }, []);
 
         useEffect(() => {
-            console.log('account', blockchainStore.blockchain.account);
-            console.log('owner', ownerAddress);
-            if (blockchainStore.blockchain.account.toLowerCase() === ownerAddress.toLowerCase()) {
-                console.log("setIsOwner true")
+            if (blockchainStore?.blockchain?.account.toLowerCase() === ownerAddress?.toLowerCase()) {
                 setIsOwner(true);
             } else {
                 setIsOwner(false);
